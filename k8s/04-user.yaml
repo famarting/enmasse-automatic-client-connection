@@ -1,0 +1,11 @@
+apiVersion: user.enmasse.io/v1beta1
+kind: MessagingUser
+metadata:
+  name: myspace.sa-user
+spec:
+  username: system:serviceaccount:usernamespace:default
+  authentication:
+    type: serviceaccount
+  authorization:
+    - operations: ["recv", "send"]
+      addresses: ["*"]

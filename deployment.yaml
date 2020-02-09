@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: quarkus-magic-client
+  name: quarkus-magic-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-magic-client
+  template:
+    metadata:
+      labels:
+        app: quarkus-magic-client
+    spec:
+      containers:
+      - env:
+        - name: MESSAGING_CONNECT_FILE
+          value: /opt/messaging/connect.json
+        image: quay.io/famargon/quarkus-magic-client:latest
+        imagePullPolicy: Always
+        name: quarkus-magic-client
+        terminationGracePeriodSeconds: 5
+        volumeMounts:
+          - mountPath: /opt/messaging
+            name: messaging-config
+      volumes:
+        - name: messaging-config
+          configMap:
+              name: my-config
